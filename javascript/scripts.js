@@ -1,114 +1,42 @@
-/**
- * Create one card from item data.
- */
-function createCardElement(item) {
-    return `
-        <li class="card">
-            <img src=${item.image} alt="">
-            <div class="card-content">
-                <p class="subheader">
-                    ${item.subtitle}
-                </p>
-                <h3 class="header">
-                    ${item.title}
-                </h3>
-            </div>
-        </li>
+const API_KEY = '72afdd7c6649efe9686465ce89d6b6c1';
+const API_BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
+
+async function fetchWeather(city) {
+    try {
+        const apiUrl = `${API_BASE_URL}?q=${city}&appid=${API_KEY}&units=metric`;
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch weather data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching weather:', error);
+        return null;
+    }
+}
+
+function updateWeatherInfo(data) {
+    const weatherResultDiv = document.getElementById('weatherResult');
+    if (!data) {
+        weatherResultDiv.innerHTML = '<p>Failed to fetch weather data. Please try again later.</p>';
+        return;
+    }
+
+    const iconUrl = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+    const iconHtml = `<img src="${iconUrl}" alt="Weather Icon">`;
+
+    weatherResultDiv.innerHTML = `
+        <h2>${data.name}</h2>
+        ${iconHtml}
+        <h3>${data.weather[0].description}</h3>
+        <p>Temperature: ${data.main.temp}°C</p>
+        <p>Feels like: ${data.main.feels_like}°C</p>
+        <p>Humidity: ${data.main.humidity}%</p> 
     `;
 }
-  
-/**
-* Create multiple cards from array of item data.
-*/
-function createCardElements(data) {
-return data.map(createCardElement).join("");
-}
-  
-/**
-* Fetch list of pokemon names and urls.
-*/
-async function fetch150PokemonList() {
-    try {
-        // Get a list of Pokemon numbered 0-150
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=150");
-        const data = await response.json();
-        return data.results;
-        //Error handling
-    }   catch (error) {
-        console.log(error);
-    }
-}
-  
-/**
-* Fetch details of a pokemon.
-*/
-async function fetchPokemonDetails(url) {
-    try {
-        const response = await fetch(url);
-        const json = await response.json();
-        return json;
-        //Error handling
-    }   catch (error) {
-        console.log(error);
-    }
-}
-  
-/**
-* Fetch details of all 150 pokemon.
-*/
-async function fetch150PokemonDetails() {
-    const detailsList = [];
-    for (let i = 1; i <= 150; i++) {
-        const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
-        const data = await fetchPokemonDetails(url);
-        if (data) {
-            detailsList.push(data);
-        }
-    }
-    return detailsList;
-}
 
-/**
-* Option 1
-*/
-function renderOption1Results(data) {
-    const card = createCardElement({
-        title: data.name,
-        subtitle: data.types.map((type) => type.type.name).join(", "),
-        image: data.sprites.other["official-artwork"].front_default,
-    });
-    document.getElementById("option-1-results").innerHTML = card;
-}
-  
-async function option1DropdownClickHandler(event) {
-    const select = document.getElementById("dropdown");
-    const url = select.options[select.selectedIndex].value;
-    const data = await fetchPokemonDetails(url);
-    if (data) {
-        renderOption1Results(data);
-    }
-}
-  
-/**
-* Attach an event listener to the submit button for the Option 1 dropdown list.
-*/
-const option1SubmitButton = document.getElementById("submit-button");
-option1SubmitButton.addEventListener("click", option1DropdownClickHandler);
-  
-/**
-* Populate the dropdown list with pokemon names and their endpoint urls.
-*/
-async function renderOption1Dropdown() {
-    const select = document.getElementById("dropdown");
-    const list = await fetch150PokemonList();
-    if (list) {
-        list.forEach((item) => {
-            const option = document.createElement("option");
-            option.textContent = item.name;
-            option.value = item.url;
-            select.appendChild(option);
-        });
-    }
-}
-
-renderOption1Dropdown();
+document.getElementById("getWeatherButton").addEventListener("click", async () => {
+    const selectedCity = document.getElementById("city").value;
+    const weatherData = await fetchWeather(selectedCity);
+    updateWeatherInfo(weatherData);
+});

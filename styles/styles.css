@@ -1,7 +1,3 @@
-ol, ul {
-    list-style: none;
-}
-
 body {
     background-color: #fafafa; 
     margin: 0;
@@ -14,32 +10,34 @@ body {
     padding: 6rem 1rem;
 }
 
-.header-container h1, h2 {
+.header-container h1 {
     color: #d1e8e2;
 }
 
-.option-1 {
-    background-color: #fafafa;
-    padding: 1.25rem;
+.weather-container h2, p {
+    color: black;
 }
 
-.option-container {
+.weather-container {
     background-color: #d9ece7; 
-    border-radius: 0.6rem;
+    border-radius: 1rem;
     padding: 1.25rem;
-    margin-bottom: 2.5rem;
+    margin: 2rem;
     box-shadow: 0px 0px 0.6rem rgba(0, 0, 0, 0.1); 
     text-align: center;
 }
 
-.option-container h2 {
-    color: #1b1b1b;
-    margin-bottom: 0.6rem;
+.result {
+    background-color: #e8f3fe;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    margin: 2rem;
+    box-shadow: 0px 0px 0.6rem rgba(0, 0, 0, 0.1); 
+    text-align: center;
 }
 
-/* Button styling */
 .button {
-    background-color: #116466;
+    background-color: #083e3f;
     color: #ffffff;
     border: none;
     padding: 0.6rem 1.25rem;
@@ -51,56 +49,6 @@ body {
     background-color: #1c898b; 
 }
 
-.card-container {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.card {
-    background-color: #ffffff; 
-    border-radius: 0.6rem;
-    box-shadow: 0px 0px 0.6rem rgba(0, 0, 0, 0.12);
-    padding: 1.25rem;
-    max-width: 21.1875rem;
-    flex: 1 0 45%;
-    text-align: center; 
-}
-
-.card img {
-    border-bottom: 0.1rem solid #116466;
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto 0.6rem;
-}
-
-@media screen and (min-width: 768px) {
-    /* Tablet image styling */
-    img {
-        min-height: 15.5rem;
-    }
-}
-
-@media screen and (min-width: 1200px) {
-    /* Large desktop image styling */
-    img {
-        min-height: 16.375rem; 
-    }
-}
-
-.subheader {
-    color: #666666;
-    margin: 0;
-}
-
-.header {
-    color: #333333;
-    margin-top: 0.3rem;
-    margin-bottom: 0.6rem;
-}
-
 .dropdown {
     padding: 0.5rem;
     font-size: 1rem;
@@ -108,3 +56,28 @@ body {
     border: 0.1rem solid #ccc;
     background-color: #ffffff;
 }
+
+img {
+    min-height: 15rem;
+}
+
+@media screen and (max-width: 767px) {
+    img {
+        min-height: 7rem;
+    }
+
+    h1 {
+        font-size: 2.0rem;
+    }
+
+    h2, h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    img {
+        min-height: 10rem;
+    }
+}
+
